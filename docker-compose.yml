@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  api:
+    build: .
+    image: catboost-api:latest
+    container_name: catboost_api
+    restart: always
+    ports:
+      - "8010:8000"
+    environment:
+      - MODEL_PATH=/app/models/catboost_model.cbm
+    volumes:
+      - ./models:/app/models   # 本地开发用。生产：替换成绝对路径 /srv/models:/app/models
+    # limits / healthcheck 可选
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
