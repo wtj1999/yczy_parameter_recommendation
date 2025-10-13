@@ -1,0 +1,14 @@
+{
+  "feature_cols": [
+    "ryczy004",
+    "ryczy205"
+  ],
+  "cat_features": [],
+  "num_features": [
+    "ryczy004",
+    "ryczy205"
+  ],
+  "model_path": "models/catboost_model.cbm",
+  "num_pipeline_path": "models/num_pipeline.joblib",
+  "model_version": "v1"
+}
