@@ -1,0 +1,19 @@
+version: "3.8"
+services:
+  api:
+    build: .
+    image: yczy-recommend-api:latest
+    container_name: yczy_recommend_api
+    restart: always
+    ports:
+      - "8010:8000"
+    environment:
+      - MODELS_DIR=/app/models_by_file   # 可在服务里读取该 env（若你使用）
+      - FEATURE_ORDER=ryczy004,ryczy205
+    volumes:
+      - ./models_by_file:/app/models_by_file
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8010/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3

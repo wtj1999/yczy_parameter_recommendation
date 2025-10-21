@@ -1,0 +1,16 @@
+{
+  "source_file": "merged_123Ah_XZ2-02-02-ZY-YC-01_3.0.csv",
+  "feature_cols": [
+    "ryczy004",
+    "ryczy205"
+  ],
+  "target_col": "ryczy608",
+  "nominal": 330,
+  "tolerance": 3,
+  "n_samples_filtered": 259717,
+  "n_samples_used": 259717,
+  "train_size": 207773,
+  "test_size": 51944,
+  "model_path": "./models_by_file\\merged_123Ah_XZ2-02-02-ZY-YC-01_3.0\\catboost_model.cbm",
+  "pipeline_path": "./models_by_file\\merged_123Ah_XZ2-02-02-ZY-YC-01_3.0\\num_pipeline.joblib"
+}
