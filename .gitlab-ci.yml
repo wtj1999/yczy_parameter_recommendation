@@ -1,0 +1,58 @@
+stages:
+  - install
+  - lint
+  - test
+  - deploy
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+
+install:
+  stage: install
+  script:
+    - echo "Installing dependencies..."
+    - pip install -r requirements-dev.txt
+  artifacts:
+    paths:
+      - .venv/
+    expire_in: 1h
+
+lint:
+  stage: lint
+  script:
+    - echo "Running flake8 lint check..."
+    - flake8 . --max-line-length=120 --exclude=.venv,__pycache__,migrations
+  allow_failure: false
+  only:
+    - merge_requests
+    - main
+    - dev
+
+test:
+  stage: test
+  script:
+    - echo "Running pytest..."
+    - pytest --maxfail=1 --disable-warnings -q
+  only:
+    - merge_requests
+    - main
+    - dev
+
+deploy:
+  stage: deploy
+  image: docker:stable
+  services:
+    - docker:dind
+  script:
+    - echo "Building Docker image..."
+    - docker build -t $CI_REGISTRY_IMAGE:latest .
+    - echo "Logging into GitLab Container Registry..."
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" "$CI_REGISTRY" --password-stdin
+    - echo "Pushing Docker image..."
+    - docker push $CI_REGISTRY_IMAGE:latest
+  only:
+    - main
